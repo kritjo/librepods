@@ -145,7 +145,8 @@ void MediaController::followMediaChanges() {
 bool MediaController::isActiveOutputDeviceAirPods() {
   QString defaultSink = m_pulseAudio->getDefaultSink();
   LOG_DEBUG("Default sink: " << defaultSink);
-  return defaultSink.contains(connectedDeviceMacAddress);
+  // WirePlumber names the sink bluez_output.80:95:..., the address here is 80_95_...
+  return defaultSink.replace(':', '_').contains(connectedDeviceMacAddress);
 }
 
 void MediaController::handleConversationalAwareness(const QByteArray &data) {
